@@ -12,7 +12,7 @@ import sys
 
 # a place to store the latest timestamp we've downloaded
 
-last_modified_filename=str(pathlib.Path(__file__).resolve().parent) + '/../local/last_modified.log'
+last_modified_filename=str(pathlib.Path(__file__).resolve().parent) + '/last_modified.log'
 
 try:
   last_modified_fh=open(last_modified_filename, 'r')
@@ -40,19 +40,17 @@ try:
         last_modified_fh.write(json.dumps(last_modified))
         last_modified_fh.close()
 
-        #print(last_modified)
-
         eventzip = zipfile.ZipFile( io.BytesIO( f.read() ))
         eventxlsx = io.BytesIO(eventzip.read('events.xlsx'))
 
         wb = load_workbook(eventxlsx)
         ws = wb.active
-        header_row = [ 'File_Time' ] + [  x.value for x in ws[1] ]
+        header_row = [ 'File_Time' ] + [  re.sub("[^\tA-Za-z]+","_",x.value).strip("_") for x in ws[1] ]
         csvout = csv.writer(sys.stdout, delimiter='\t', quoting=csv.QUOTE_ALL)
         csvout.writerow(header_row)
         all_rows = ws.rows
         all_rows.__next__()     #skip the first row, it's the header
-        for i in ws.rows:
+        for i in all_rows:
             rowout = [ last_modified ] + [str(x.value).replace("\n","  ;;  ") for x in i]
             csvout.writerow(rowout)
 
