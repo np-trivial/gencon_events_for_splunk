@@ -1,0 +1,5 @@
+[gencon]
+disabled = true
+coldPath = $SPLUNK_DB/gencon/colddb
+homePath = $SPLUNK_DB/gencon/db
+thawedPath = $SPLUNK_DB/gencon/thaweddb
