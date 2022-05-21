@@ -1,0 +1,5 @@
+https://github.com/np-trivial/gencon_events_for_splunk
+
+Tested on Splunk 8.3
+
+GenCon Events ships wth an input that points at the GenCon index. Apps are not allowed to ship with indexes. However, the app does provide an indexes.conf example if you wish to enable it. (You'll need to rename the file and restart Splunk). 
